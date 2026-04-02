@@ -1,16 +1,20 @@
 # telecom-cloud-open5gs-lab
 
-Cloud-Native 5G Core / Telecom Platform Lab with Open5GS, Kubernetes, Helm, Observability, CI/CD, and AWS Integration.
+Step 0 baseline completed.
 
-## Goal
-Build a telecom-focused, production-style learning and portfolio project for:
-- IMS / VoLTE / VoNR operations awareness
-- 5G Core / Open5GS operations
-- Kubernetes CNF deployment and troubleshooting
-- Helm packaging
-- Observability with Prometheus/Grafana
-- GitHub Actions CI/CD
-- AWS integration with cost control
+## Current baseline
+- Git repository initialized and connected to GitHub
+- kind cluster definition stored in Git
+- Local kind cluster recreated successfully
+- telecom namespace managed via manifest
+- smoke-nginx deployment running in telecom namespace
+- smoke-nginx service reachable inside cluster
 
-## Status
-Phase 0 in progress: local environment validation and repo foundation.
+## Quick validation commands
+kubectl get nodes
+kubectl get ns telecom
+kubectl get deploy,svc -n telecom
+kubectl run curl-test -n telecom --image=curlimages/curl:8.10.1 --restart=Never --rm -it -- curl -I http://smoke-nginx
+
+## Step 0 goal
+Create a reproducible, Git-driven Kubernetes baseline before deploying telecom workloads like Open5GS.
