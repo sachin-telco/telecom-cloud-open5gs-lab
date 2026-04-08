@@ -1,0 +1,29 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: open5gs-amf
+  namespace: telecom
+spec:
+  selector:
+    app: open5gs-amf
+  ports:
+    - name: sbi
+      port: 7777
+      targetPort: 7777
+      protocol: TCP
+  type: ClusterIP
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: open5gs-amf-ngap
+  namespace: telecom
+spec:
+  selector:
+    app: open5gs-amf
+  ports:
+    - name: ngap
+      port: 38412
+      targetPort: 38412
+      protocol: SCTP
+  type: ClusterIP

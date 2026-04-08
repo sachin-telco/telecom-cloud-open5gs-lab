@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: open5gs-scp
+  namespace: telecom
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: open5gs-scp
+  template:
+    metadata:
+      labels:
+        app: open5gs-scp
+    spec:
+      containers:
+        - name: scp
+          image: docker.io/gradiant/open5gs:2.7.6
+          command: ["/bin/sh", "-c"]
+          args:
+            - open5gs-scpd -c /etc/open5gs/scp.yaml
+          ports:
+            - containerPort: 7777
+              name: sbi
+          volumeMounts:
+            - name: scp-config
+              mountPath: /etc/open5gs/scp.yaml
+              subPath: scp.yaml
+          readinessProbe:
+            tcpSocket:
+              port: 7777
+            initialDelaySeconds: 5
+            periodSeconds: 5
+          livenessProbe:
+            tcpSocket:
+              port: 7777
+            initialDelaySeconds: 15
+            periodSeconds: 10
+      volumes:
+        - name: scp-config
+          configMap:
+            name: open5gs-scp-config

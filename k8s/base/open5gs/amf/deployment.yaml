@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: open5gs-amf
+  namespace: telecom
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: open5gs-amf
+  template:
+    metadata:
+      labels:
+        app: open5gs-amf
+    spec:
+      containers:
+        - name: amf
+          image: docker.io/gradiant/open5gs:2.7.6
+          imagePullPolicy: IfNotPresent
+          command: ["/bin/sh", "-c"]
+          args:
+            - open5gs-amfd -c /etc/open5gs/amf.yaml
+          ports:
+            - containerPort: 7777
+              name: sbi
+              protocol: TCP
+            - containerPort: 38412
+              name: ngap
+              protocol: SCTP
+          volumeMounts:
+            - name: config
+              mountPath: /etc/open5gs/amf.yaml
+              subPath: amf.yaml
+          readinessProbe:
+            tcpSocket:
+              port: 7777
+            initialDelaySeconds: 5
+            periodSeconds: 5
+          livenessProbe:
+            tcpSocket:
+              port: 7777
+            initialDelaySeconds: 15
+            periodSeconds: 10
+      volumes:
+        - name: config
+          configMap:
+            name: open5gs-amf-config
