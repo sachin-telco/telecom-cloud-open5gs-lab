@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: open5gs-smf
+  namespace: telecom
+spec:
+  selector:
+    app: open5gs-smf
+  ports:
+    - name: sbi
+      protocol: TCP
+      port: 7777
+      targetPort: 7777
+    - name: pfcp
+      protocol: UDP
+      port: 8805
+      targetPort: 8805

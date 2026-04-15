@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: open5gs-smf
+  namespace: telecom
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: open5gs-smf
+  template:
+    metadata:
+      labels:
+        app: open5gs-smf
+    spec:
+      containers:
+        - name: smf
+          image: docker.io/gradiant/open5gs:2.7.6
+          imagePullPolicy: IfNotPresent
+          command: ["/bin/sh", "-c"]
+          args:
+            - open5gs-smfd -c /etc/open5gs/smf.yaml
+          ports:
+            - containerPort: 7777
+              name: sbi
+              protocol: TCP
+            - containerPort: 8805
+              name: pfcp
+              protocol: UDP
+            - containerPort: 2123
+              name: gtpc
+              protocol: UDP
+            - containerPort: 2152
+              name: gtpu
+              protocol: UDP
+          volumeMounts:
+            - name: smf-config
+              mountPath: /etc/open5gs/smf.yaml
+              subPath: smf.yaml
+              readOnly: true
+      volumes:
+        - name: smf-config
+          configMap:
+            name: open5gs-smf-config

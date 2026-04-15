@@ -1,0 +1,25 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: open5gs-upf-config
+  namespace: telecom
+data:
+  upf.yaml: |
+    logger:
+      file:
+        path: /dev/stdout
+
+    global:
+      max:
+        ue: 1024
+
+    upf:
+      pfcp:
+        server:
+          - address: 0.0.0.0
+      gtpu:
+        server:
+          - address: 0.0.0.0
+      session:
+        - subnet: 10.45.0.0/16
+          gateway: 10.45.0.1
