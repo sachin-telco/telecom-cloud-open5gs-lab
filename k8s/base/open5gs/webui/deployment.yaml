@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: open5gs-webui
+  namespace: telecom
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: open5gs-webui
+  template:
+    metadata:
+      labels:
+        app: open5gs-webui
+    spec:
+      containers:
+        - name: webui
+          image: docker.io/gradiant/open5gs-webui:2.7.0
+          ports:
+            - containerPort: 3000
+          env:
+            - name: DB_URI
+              value: mongodb://mongodb.default.svc.cluster.local:27017/open5gs
