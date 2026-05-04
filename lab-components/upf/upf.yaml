@@ -1,0 +1,17 @@
+logger:
+  file:
+    path: /dev/stdout
+
+upf:
+  pfcp:
+    server:
+      - address: 0.0.0.0
+        port: 8805
+
+  gtpu:
+    server:
+      - address: 0.0.0.0
+
+  session:
+    - subnet: 10.45.0.0/16
+      gateway: 10.45.0.1
