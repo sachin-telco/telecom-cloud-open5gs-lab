@@ -5,13 +5,12 @@ logger:
 upf:
   pfcp:
     server:
-      - address: 0.0.0.0
+      - address: 172.21.70.46
         port: 8805
-
   gtpu:
     server:
-      - address: 0.0.0.0
-
+      - address: 172.21.70.46
   session:
     - subnet: 10.45.0.0/16
       gateway: 10.45.0.1
+      dnn: internet
