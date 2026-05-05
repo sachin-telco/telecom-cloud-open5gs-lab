@@ -1,4 +1,8 @@
 apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: open5gs-smf-config
+  namespace: telecom
 data:
   smf.yaml: |
     logger:
@@ -16,7 +20,7 @@ data:
 
       pfcp:
         server:
-          - address: 172.18.0.2
+          - address: 0.0.0.0
         client:
           upf:
             - address: 172.21.70.46
@@ -39,13 +43,3 @@ data:
         - 8.8.4.4
 
       mtu: 1400
-kind: ConfigMap
-metadata:
-  annotations:
-    kubectl.kubernetes.io/last-applied-configuration: |
-      {"apiVersion":"v1","data":{"smf.yaml":"logger:\n  file:\n    path: /dev/stdout\n\nsmf:\n  sbi:\n    server:\n      - address: 0.0.0.0\n        port: 7777\n    client:\n      nrf:\n        - uri: http://open5gs-nrf:7777\n\n  pfcp:\n    server:\n      - address: 172.18.0.2\n    client:\n      upf:\n        - address: 172.21.70.46\n\n  gtpc:\n    server:\n      - address: 0.0.0.0\n\n  gtpu:\n    server:\n      - address: 0.0.0.0\n\n  session:\n    - subnet: 10.45.0.0/16\n      gateway: 10.45.0.1\n      dnn: internet\n\n  dns:\n    - 8.8.8.8\n    - 8.8.4.4\n\n  mtu: 1400\n"},"kind":"ConfigMap","metadata":{"annotations":{},"name":"open5gs-smf-config","namespace":"telecom"}}
-  creationTimestamp: "2026-05-04T10:27:58Z"
-  name: open5gs-smf-config
-  namespace: telecom
-  resourceVersion: "72750"
-  uid: b5006dd2-6006-43e8-9b5a-6ef70d709552
